@@ -327,30 +327,6 @@ func FileLTE(v bug.File) predicate.User {
 	})
 }
 
-// FileContains applies the Contains predicate on the "file" field.
-func FileContains(v bug.File) predicate.User {
-	vc := string(v)
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.Contains(s.C(FieldFile), vc))
-	})
-}
-
-// FileHasPrefix applies the HasPrefix predicate on the "file" field.
-func FileHasPrefix(v bug.File) predicate.User {
-	vc := string(v)
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.HasPrefix(s.C(FieldFile), vc))
-	})
-}
-
-// FileHasSuffix applies the HasSuffix predicate on the "file" field.
-func FileHasSuffix(v bug.File) predicate.User {
-	vc := string(v)
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.HasSuffix(s.C(FieldFile), vc))
-	})
-}
-
 // FileIsNil applies the IsNil predicate on the "file" field.
 func FileIsNil() predicate.User {
 	return predicate.User(func(s *sql.Selector) {
@@ -362,22 +338,6 @@ func FileIsNil() predicate.User {
 func FileNotNil() predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.NotNull(s.C(FieldFile)))
-	})
-}
-
-// FileEqualFold applies the EqualFold predicate on the "file" field.
-func FileEqualFold(v bug.File) predicate.User {
-	vc := string(v)
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.EqualFold(s.C(FieldFile), vc))
-	})
-}
-
-// FileContainsFold applies the ContainsFold predicate on the "file" field.
-func FileContainsFold(v bug.File) predicate.User {
-	vc := string(v)
-	return predicate.User(func(s *sql.Selector) {
-		s.Where(sql.ContainsFold(s.C(FieldFile), vc))
 	})
 }
 

@@ -7,6 +7,7 @@ import (
 	"strconv"
 	"testing"
 
+	"entgo.io/bug"
 	"entgo.io/ent/dialect"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
@@ -64,15 +65,15 @@ func test(t *testing.T, client *ent.Client) {
 	client.User.Create().SetName("Ariel").SetAge(30).ExecX(ctx)
 
 	// create custom type with empty
-	client.User.Create().SetName("Bob").SetAge(30).SetFile("").ExecX(ctx)
+	client.User.Create().SetName("Bob").SetAge(30).SetFile(bug.File{File: ""}).ExecX(ctx)
 
 	// create custom type with value
-	client.User.Create().SetName("Bob").SetAge(30).SetFile("aaaaa").ExecX(ctx)
+	client.User.Create().SetName("Bob").SetAge(30).SetFile(bug.File{File: "aaaa"}).ExecX(ctx)
 
 	users := client.User.Query().Order(ent.Asc(user.FieldFile)).AllX(ctx)
 
-	require.Equal(t, users[0].File, "")
-	require.Equal(t, users[1].File, "")
-	require.Equal(t, users[2].File, "aaaaa")
+	require.Equal(t, users[0].File.File, "")
+	require.Equal(t, users[1].File.File, "")
+	require.Equal(t, users[2].File.File, "aaaaa")
 
 }

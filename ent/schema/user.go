@@ -18,7 +18,7 @@ func (User) Fields() []ent.Field {
 		field.String("name"),
 		field.String("file").
 			Optional().
-			GoType(bug.File("")),
+			GoType(bug.File{}),
 	}
 }
 

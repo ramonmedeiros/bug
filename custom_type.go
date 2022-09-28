@@ -9,7 +9,9 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-type File string
+type File struct {
+	File string
+}
 
 var _ field.ValueScanner = new(File)
 
@@ -19,12 +21,14 @@ func (f *File) Scan(i any) error {
 		return nil
 	}
 
-	*f = File(v)
+	*f = File{
+		File: v,
+	}
 	return nil
 }
 
 func (f File) Value() (driver.Value, error) {
-	return string(f), nil
+	return f.File, nil
 }
 
 func (f *File) UnmarshalGQLContext(ctx context.Context, i any) error {
