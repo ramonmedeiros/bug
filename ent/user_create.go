@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/bug"
 	"entgo.io/bug/ent/user"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -28,6 +29,20 @@ func (uc *UserCreate) SetAge(i int) *UserCreate {
 // SetName sets the "name" field.
 func (uc *UserCreate) SetName(s string) *UserCreate {
 	uc.mutation.SetName(s)
+	return uc
+}
+
+// SetFile sets the "file" field.
+func (uc *UserCreate) SetFile(b bug.File) *UserCreate {
+	uc.mutation.SetFile(b)
+	return uc
+}
+
+// SetNillableFile sets the "file" field if the given value is not nil.
+func (uc *UserCreate) SetNillableFile(b *bug.File) *UserCreate {
+	if b != nil {
+		uc.SetFile(*b)
+	}
 	return uc
 }
 
@@ -155,6 +170,14 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 			Column: user.FieldName,
 		})
 		_node.Name = value
+	}
+	if value, ok := uc.mutation.File(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: user.FieldFile,
+		})
+		_node.File = value
 	}
 	return _node, _spec
 }

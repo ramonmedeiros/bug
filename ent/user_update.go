@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 
+	"entgo.io/bug"
 	"entgo.io/bug/ent/predicate"
 	"entgo.io/bug/ent/user"
 	"entgo.io/ent/dialect/sql"
@@ -43,6 +44,26 @@ func (uu *UserUpdate) AddAge(i int) *UserUpdate {
 // SetName sets the "name" field.
 func (uu *UserUpdate) SetName(s string) *UserUpdate {
 	uu.mutation.SetName(s)
+	return uu
+}
+
+// SetFile sets the "file" field.
+func (uu *UserUpdate) SetFile(b bug.File) *UserUpdate {
+	uu.mutation.SetFile(b)
+	return uu
+}
+
+// SetNillableFile sets the "file" field if the given value is not nil.
+func (uu *UserUpdate) SetNillableFile(b *bug.File) *UserUpdate {
+	if b != nil {
+		uu.SetFile(*b)
+	}
+	return uu
+}
+
+// ClearFile clears the value of the "file" field.
+func (uu *UserUpdate) ClearFile() *UserUpdate {
+	uu.mutation.ClearFile()
 	return uu
 }
 
@@ -144,6 +165,19 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: user.FieldName,
 		})
 	}
+	if value, ok := uu.mutation.File(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: user.FieldFile,
+		})
+	}
+	if uu.mutation.FileCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: user.FieldFile,
+		})
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, uu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{user.Label}
@@ -179,6 +213,26 @@ func (uuo *UserUpdateOne) AddAge(i int) *UserUpdateOne {
 // SetName sets the "name" field.
 func (uuo *UserUpdateOne) SetName(s string) *UserUpdateOne {
 	uuo.mutation.SetName(s)
+	return uuo
+}
+
+// SetFile sets the "file" field.
+func (uuo *UserUpdateOne) SetFile(b bug.File) *UserUpdateOne {
+	uuo.mutation.SetFile(b)
+	return uuo
+}
+
+// SetNillableFile sets the "file" field if the given value is not nil.
+func (uuo *UserUpdateOne) SetNillableFile(b *bug.File) *UserUpdateOne {
+	if b != nil {
+		uuo.SetFile(*b)
+	}
+	return uuo
+}
+
+// ClearFile clears the value of the "file" field.
+func (uuo *UserUpdateOne) ClearFile() *UserUpdateOne {
+	uuo.mutation.ClearFile()
 	return uuo
 }
 
@@ -308,6 +362,19 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 			Type:   field.TypeString,
 			Value:  value,
 			Column: user.FieldName,
+		})
+	}
+	if value, ok := uuo.mutation.File(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: user.FieldFile,
+		})
+	}
+	if uuo.mutation.FileCleared() {
+		_spec.Fields.Clear = append(_spec.Fields.Clear, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Column: user.FieldFile,
 		})
 	}
 	_node = &User{config: uuo.config}

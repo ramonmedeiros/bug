@@ -1,6 +1,7 @@
 package schema
 
 import (
+	"entgo.io/bug"
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
 )
@@ -15,6 +16,9 @@ func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int("age"),
 		field.String("name"),
+		field.String("file").
+			Optional().
+			GoType(bug.File("")),
 	}
 }
 

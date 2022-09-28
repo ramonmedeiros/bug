@@ -3,6 +3,7 @@
 package user
 
 import (
+	"entgo.io/bug"
 	"entgo.io/bug/ent/predicate"
 	"entgo.io/ent/dialect/sql"
 )
@@ -89,6 +90,13 @@ func Age(v int) predicate.User {
 func Name(v string) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldName), v))
+	})
+}
+
+// File applies equality check predicate on the "file" field. It's identical to FileEQ.
+func File(v bug.File) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFile), v))
 	})
 }
 
@@ -252,6 +260,124 @@ func NameEqualFold(v string) predicate.User {
 func NameContainsFold(v string) predicate.User {
 	return predicate.User(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldName), v))
+	})
+}
+
+// FileEQ applies the EQ predicate on the "file" field.
+func FileEQ(v bug.File) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldFile), v))
+	})
+}
+
+// FileNEQ applies the NEQ predicate on the "file" field.
+func FileNEQ(v bug.File) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldFile), v))
+	})
+}
+
+// FileIn applies the In predicate on the "file" field.
+func FileIn(vs ...bug.File) predicate.User {
+	v := make([]any, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldFile), v...))
+	})
+}
+
+// FileNotIn applies the NotIn predicate on the "file" field.
+func FileNotIn(vs ...bug.File) predicate.User {
+	v := make([]any, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldFile), v...))
+	})
+}
+
+// FileGT applies the GT predicate on the "file" field.
+func FileGT(v bug.File) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldFile), v))
+	})
+}
+
+// FileGTE applies the GTE predicate on the "file" field.
+func FileGTE(v bug.File) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldFile), v))
+	})
+}
+
+// FileLT applies the LT predicate on the "file" field.
+func FileLT(v bug.File) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldFile), v))
+	})
+}
+
+// FileLTE applies the LTE predicate on the "file" field.
+func FileLTE(v bug.File) predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldFile), v))
+	})
+}
+
+// FileContains applies the Contains predicate on the "file" field.
+func FileContains(v bug.File) predicate.User {
+	vc := string(v)
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldFile), vc))
+	})
+}
+
+// FileHasPrefix applies the HasPrefix predicate on the "file" field.
+func FileHasPrefix(v bug.File) predicate.User {
+	vc := string(v)
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldFile), vc))
+	})
+}
+
+// FileHasSuffix applies the HasSuffix predicate on the "file" field.
+func FileHasSuffix(v bug.File) predicate.User {
+	vc := string(v)
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldFile), vc))
+	})
+}
+
+// FileIsNil applies the IsNil predicate on the "file" field.
+func FileIsNil() predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.IsNull(s.C(FieldFile)))
+	})
+}
+
+// FileNotNil applies the NotNil predicate on the "file" field.
+func FileNotNil() predicate.User {
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.NotNull(s.C(FieldFile)))
+	})
+}
+
+// FileEqualFold applies the EqualFold predicate on the "file" field.
+func FileEqualFold(v bug.File) predicate.User {
+	vc := string(v)
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldFile), vc))
+	})
+}
+
+// FileContainsFold applies the ContainsFold predicate on the "file" field.
+func FileContainsFold(v bug.File) predicate.User {
+	vc := string(v)
+	return predicate.User(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldFile), vc))
 	})
 }
 

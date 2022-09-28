@@ -1,4 +1,4 @@
-package bug
+package bug_test
 
 import (
 	"context"
@@ -11,9 +11,11 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/stretchr/testify/require"
 
 	"entgo.io/bug/ent"
 	"entgo.io/bug/ent/enttest"
+	"entgo.io/bug/ent/user"
 )
 
 func TestBugSQLite(t *testing.T) {
@@ -57,8 +59,20 @@ func TestBugMaria(t *testing.T) {
 func test(t *testing.T, client *ent.Client) {
 	ctx := context.Background()
 	client.User.Delete().ExecX(ctx)
+
+	// create custom type with nil
 	client.User.Create().SetName("Ariel").SetAge(30).ExecX(ctx)
-	if n := client.User.Query().CountX(ctx); n != 1 {
-		t.Errorf("unexpected number of users: %d", n)
-	}
+
+	// create custom type with empty
+	client.User.Create().SetName("Bob").SetAge(30).SetFile("").ExecX(ctx)
+
+	// create custom type with value
+	client.User.Create().SetName("Bob").SetAge(30).SetFile("aaaaa").ExecX(ctx)
+
+	users := client.User.Query().Order(ent.Asc(user.FieldFile)).AllX(ctx)
+
+	require.Equal(t, users[0].File, "")
+	require.Equal(t, users[1].File, "")
+	require.Equal(t, users[2].File, "aaaaa")
+
 }
